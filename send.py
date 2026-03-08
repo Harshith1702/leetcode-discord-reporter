@@ -1,6 +1,6 @@
 import requests
-from datetime import datetime, timezone
 import os
+from datetime import datetime, timezone
 
 username = os.environ["LEETCODE_USERNAME"]
 webhook = os.environ["DISCORD_WEBHOOK"]
@@ -25,28 +25,20 @@ res = requests.post(url, json=query).json()
 today = datetime.now(timezone.utc).date()
 
 links = []
-seen = set()
 
 for sub in res["data"]["recentSubmissionList"]:
     if sub["statusDisplay"] == "Accepted":
         d = datetime.fromtimestamp(int(sub["timestamp"]), tz=timezone.utc).date()
         if d == today:
-            link = f"https://leetcode.com/problems/{sub['titleSlug']}"
-            if link not in seen:
-                seen.add(link)
-                links.append(link)
+            links.append(f"https://leetcode.com/problems/{sub['titleSlug']}")
 
-print("Solved today:", links)
+links = list(dict.fromkeys(links))
 
 if len(links) == 0:
-    print("No problems solved today")
-    exit()
+    requests.post(webhook, json={"content": "No problems solved today"})
+else:
+    msg = f"Today ({len(links)} problems):\n"
+    for i, l in enumerate(links, 1):
+        msg += f"{i}) {l}\n"
 
-msg = f"Today ({len(links)} problems):\n"
-
-for i, l in enumerate(links, 1):
-    msg += f"{i}) {l}\n"
-
-print("Sending message:", msg)
-
-requests.post(webhook, json={"content": "TEST MESSAGE FROM GITHUB ACTION"})
+    requests.post(webhook, json={"content": msg})
