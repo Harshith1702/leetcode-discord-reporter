@@ -22,3 +22,4 @@ jobs:
      env:
       LEETCODE_USERNAME: ${{ secrets.LEETCODE_USERNAME }}
       DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+      LEETCODE_SESSION: ${{ secrets.LEETCODE_SESSION }}
