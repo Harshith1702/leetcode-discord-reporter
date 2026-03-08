@@ -136,7 +136,7 @@ LeetCode session cookies expire. When the bot stops working:
 
 In class one day, our sir mentioned a student from another campus who had built something really cool — a script on his local PC that sent his daily LeetCode solved problem links to the college Discord server (where we're supposed to post daily) with just a single button click. Sir was genuinely impressed, said he only found out about it a few days later.
 
-That story stayed with me. I took that same idea and pushed it a step further — no button, no local PC, fully automated on the cloud. Every night at 10:15 PM it just runs, whether my PC is on or not.
+That story stayed with me. I took that same idea and pushed it a step further — no button, no local PC. Mine just runs automatically every night at 10:15 PM and posts on its own, whether my PC is on or not.
 
 Respect to that guy for the inspiration. 🙏
 
