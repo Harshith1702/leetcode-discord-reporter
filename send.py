@@ -5,26 +5,30 @@ from datetime import datetime, timedelta
 username = os.environ["LEETCODE_USERNAME"]
 webhook = os.environ["DISCORD_WEBHOOK"]
 
-url = f"https://leetcode.com/api/submissions/{username}"
+url = "https://leetcode.com/graphql"
 
-headers = {
-    "User-Agent": "Mozilla/5.0"
+query = {
+ "query": """
+ query recentSubmissions($username: String!) {
+  recentSubmissionList(username: $username) {
+   titleSlug
+   timestamp
+   statusDisplay
+  }
+ }
+ """,
+ "variables": {"username": username}
 }
 
-res = requests.get(url, headers=headers)
+headers = {
+ "Content-Type": "application/json",
+ "User-Agent": "Mozilla/5.0"
+}
 
-# Check if response is valid JSON
-if res.status_code != 200:
-    requests.post(webhook, json={"content": "Error contacting LeetCode"})
-    exit()
+res = requests.post(url, json=query, headers=headers)
+data = res.json()
 
-try:
-    data = res.json()
-except:
-    requests.post(webhook, json={"content": "LeetCode blocked the request"})
-    exit()
-
-subs = data.get("submissions_dump", [])
+subs = data["data"]["recentSubmissionList"]
 
 now = datetime.utcnow() + timedelta(hours=5, minutes=30)
 today = now.date()
@@ -33,21 +37,27 @@ links = []
 seen = set()
 
 for sub in subs:
-    if sub["status_display"] == "Accepted":
-        ts = int(sub["timestamp"])
-        sub_time = datetime.utcfromtimestamp(ts) + timedelta(hours=5, minutes=30)
 
-        if sub_time.date() == today:
-            link = f"https://leetcode.com/problems/{sub['title_slug']}"
-            if link not in seen:
-                seen.add(link)
-                links.append(link)
+ if sub["statusDisplay"] == "Accepted":
+
+  ts = int(sub["timestamp"])
+  sub_time = datetime.utcfromtimestamp(ts) + timedelta(hours=5, minutes=30)
+
+  if sub_time.date() == today:
+
+   link = f"https://leetcode.com/problems/{sub['titleSlug']}"
+
+   if link not in seen:
+    seen.add(link)
+    links.append(link)
 
 if len(links) == 0:
-    requests.post(webhook, json={"content": "No problems solved today"})
+ requests.post(webhook, json={"content": "No problems solved today"})
 else:
-    msg = f"Today ({len(links)} problems):\n"
-    for i, l in enumerate(links, 1):
-        msg += f"{i}) {l}\n"
 
-    requests.post(webhook, json={"content": msg})
+ msg = f"Today ({len(links)} problems):\n"
+
+ for i,l in enumerate(links,1):
+  msg += f"{i}) {l}\n"
+
+ requests.post(webhook, json={"content": msg})
