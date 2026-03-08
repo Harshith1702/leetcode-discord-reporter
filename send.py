@@ -30,20 +30,18 @@ data = res.json()
 
 subs = data["data"]["recentSubmissionList"]
 
-now = datetime.utcnow() + timedelta(hours=5, minutes=30)
-today = now.date()
-
+now = datetime.utcnow()
 links = []
 seen = set()
 
 for sub in subs:
-
  if sub["statusDisplay"] == "Accepted":
 
   ts = int(sub["timestamp"])
-  sub_time = datetime.utcfromtimestamp(ts) + timedelta(hours=5, minutes=30)
+  sub_time = datetime.utcfromtimestamp(ts)
 
-  if sub_time.date() == today:
+  # check if submission happened in last 24 hours
+  if now - sub_time < timedelta(hours=24):
 
    link = f"https://leetcode.com/problems/{sub['titleSlug']}"
 
