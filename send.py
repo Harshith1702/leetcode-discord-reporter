@@ -12,9 +12,19 @@ headers = {
 }
 
 res = requests.get(url, headers=headers)
-data = res.json()
 
-subs = data["submissions_dump"]
+# Check if response is valid JSON
+if res.status_code != 200:
+    requests.post(webhook, json={"content": "Error contacting LeetCode"})
+    exit()
+
+try:
+    data = res.json()
+except:
+    requests.post(webhook, json={"content": "LeetCode blocked the request"})
+    exit()
+
+subs = data.get("submissions_dump", [])
 
 now = datetime.utcnow() + timedelta(hours=5, minutes=30)
 today = now.date()
