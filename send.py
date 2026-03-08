@@ -7,9 +7,14 @@ webhook = os.environ["DISCORD_WEBHOOK"]
 
 url = f"https://leetcode.com/api/submissions/{username}"
 
-res = requests.get(url).json()
+headers = {
+    "User-Agent": "Mozilla/5.0"
+}
 
-subs = res["submissions_dump"]
+res = requests.get(url, headers=headers)
+data = res.json()
+
+subs = data["submissions_dump"]
 
 now = datetime.utcnow() + timedelta(hours=5, minutes=30)
 today = now.date()
