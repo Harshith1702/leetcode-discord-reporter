@@ -29,6 +29,7 @@ cookies = {
 
 res = requests.post(url, json=query, headers=headers, cookies=cookies).json()
 subs = res["data"]["recentSubmissionList"]
+requests.post(webhook, json={"content": str(subs[:3])})
 
 now = datetime.utcnow()
 links, seen = [], set()
