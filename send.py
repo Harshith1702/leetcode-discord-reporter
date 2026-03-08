@@ -5,47 +5,28 @@ from datetime import datetime, timedelta
 username = os.environ["LEETCODE_USERNAME"]
 webhook = os.environ["DISCORD_WEBHOOK"]
 
-url = "https://leetcode.com/graphql"
+url = f"https://leetcode.com/api/submissions/{username}"
 
-query = {
-    "query": """
-    query recentSubmissions($username: String!) {
-      recentSubmissionList(username: $username) {
-        titleSlug
-        timestamp
-        statusDisplay
-      }
-    }
-    """,
-    "variables": {"username": username}
-}
+res = requests.get(url).json()
 
-res = requests.post(url, json=query).json()
-
-subs = res["data"]["recentSubmissionList"]
-
-print("Recent submissions:")
-for s in subs[:5]:
-    print(s)
+subs = res["submissions_dump"]
 
 now = datetime.utcnow() + timedelta(hours=5, minutes=30)
 today = now.date()
 
 links = []
+seen = set()
 
 for sub in subs:
-    if sub["statusDisplay"] == "Accepted":
+    if sub["status_display"] == "Accepted":
         ts = int(sub["timestamp"])
         sub_time = datetime.utcfromtimestamp(ts) + timedelta(hours=5, minutes=30)
 
-        print("Submission:", sub["titleSlug"], sub_time)
-
         if sub_time.date() == today:
-            links.append(f"https://leetcode.com/problems/{sub['titleSlug']}")
-
-links = list(dict.fromkeys(links))
-
-print("Detected today:", links)
+            link = f"https://leetcode.com/problems/{sub['title_slug']}"
+            if link not in seen:
+                seen.add(link)
+                links.append(link)
 
 if len(links) == 0:
     requests.post(webhook, json={"content": "No problems solved today"})
