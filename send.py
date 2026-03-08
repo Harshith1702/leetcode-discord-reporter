@@ -21,11 +21,13 @@ query = {
 }
 headers = {
     "Content-Type": "application/json",
-    "User-Agent": "Mozilla/5.0",
-    "Cookie": f"LEETCODE_SESSION={session}"
+    "User-Agent": "Mozilla/5.0"
+}
+cookies = {
+    "LEETCODE_SESSION": session
 }
 
-res = requests.post(url, json=query, headers=headers).json()
+res = requests.post(url, json=query, headers=headers, cookies=cookies).json()
 subs = res["data"]["recentSubmissionList"]
 
 now = datetime.utcnow()
