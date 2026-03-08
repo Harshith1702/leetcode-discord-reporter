@@ -35,13 +35,12 @@ now = datetime.utcnow()
 links, seen = [], set()
 
 for sub in subs:
-    if sub["statusDisplay"] == "Accepted":
-        sub_time = datetime.utcfromtimestamp(int(sub["timestamp"]))
-        if now - sub_time < timedelta(hours=24):
-            link = f"https://leetcode.com/problems/{sub['titleSlug']}"
-            if link not in seen:
-                seen.add(link)
-                links.append(link)
+    sub_time = datetime.utcfromtimestamp(int(sub["timestamp"]))
+    if now - sub_time < timedelta(hours=24):
+        link = f"https://leetcode.com/problems/{sub['titleSlug']}"
+        if link not in seen:
+            seen.add(link)
+            links.append(link)
 
 if not links:
     requests.post(webhook, json={"content": "No problems solved today"})
