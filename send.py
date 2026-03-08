@@ -49,4 +49,4 @@ for i, l in enumerate(links, 1):
 
 print("Sending message:", msg)
 
-requests.post(webhook, json={"content": msg})
+requests.post(webhook, json={"content": "TEST MESSAGE FROM GITHUB ACTION"})
