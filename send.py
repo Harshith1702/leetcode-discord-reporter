@@ -33,4 +33,22 @@ cookies = {
 }
 
 res = requests.post(url, json=query, headers=headers, cookies=cookies).json()
-requests.post(webhook, json={"content": str(res)[:1000]})
+subs = res["data"]["recentAcSubmissionList"]
+
+now = datetime.utcnow()
+links, seen = [], set()
+
+for sub in subs:
+    sub_time = datetime.utcfromtimestamp(int(sub["timestamp"]))
+    if now - sub_time < timedelta(hours=24):
+        link = f"https://leetcode.com/problems/{sub['titleSlug']}"
+        if link not in seen:
+            seen.add(link)
+            links.append(link)
+
+if not links:
+    requests.post(webhook, json={"content": "No problems solved today"})
+else:
+    msg = f"Today ({len(links)} problems):\n"
+    msg += "\n".join(f"{i}) {l}" for i, l in enumerate(links, 1))
+    requests.post(webhook, json={"content": msg})
