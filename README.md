@@ -9,6 +9,7 @@
 ![Discord](https://img.shields.io/badge/Discord-5865F2?style=for-the-badge&logo=discord&logoColor=white)
 ![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
 ![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
+![Cron](https://img.shields.io/badge/Scheduler-cron--job.org-orange?style=for-the-badge)
 
 </div>
 
@@ -75,6 +76,21 @@ Go to your repo → **Settings** → **Secrets and variables** → **Actions** �
 ### Step 4 — You're Done 🎉
 
 Push the code. GitHub Actions handles everything from here.
+
+### Step 5 — Set Up cron-job.org (For Reliable Timing)
+
+GitHub Actions cron can delay by up to 1 hour. Use cron-job.org to trigger it exactly on time.
+
+1. Sign up free at [cron-job.org](https://cron-job.org)
+2. Create a new cronjob with:
+   - **URL:** `https://api.github.com/repos/YOUR_USERNAME/leetcode-discord-reporter/actions/workflows/YOUR_WORKFLOW_ID/dispatches`
+   - **Schedule:** 10:15 PM IST (16:45 UTC)
+   - **Method:** POST
+   - **Headers:**
+     - `Authorization` → `token YOUR_GITHUB_TOKEN`
+     - `Accept` → `application/vnd.github.v3+json`
+   - **Body:** `{"ref":"main"}`
+3. Save and test
 
 ---
 
