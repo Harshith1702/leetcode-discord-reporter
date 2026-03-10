@@ -73,9 +73,9 @@ Go to your repo → **Settings** → **Secrets and variables** → **Actions** �
 | `LEETCODE_CSRF` | `csrftoken` from Step 1 |
 | `DISCORD_WEBHOOK` | Webhook URL from Step 2 |
 
-### Step 4 — You're Done 🎉
+### Step 4 — Push the Code
 
-Push the code. GitHub Actions handles everything from here.
+Push the code to your repo. Then continue to Step 5 for reliable timing.
 
 ### Step 5 — Set Up cron-job.org (For Reliable Timing)
 
