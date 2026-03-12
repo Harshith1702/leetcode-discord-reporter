@@ -101,7 +101,7 @@ leetcode-discord-reporter/
 ├── send.py                    # Core script — fetches & posts submissions
 └── .github/
     └── workflows/
-        └── daily.yml          # Scheduler — runs every night at 10:15 PM IST
+        └── daily.yml          # Triggered by cron-job.org every night at 10:15 PM IST
 ```
 
 ---
@@ -110,13 +110,7 @@ leetcode-discord-reporter/
 
 ### Change the posting time
 
-Edit `.github/workflows/daily.yml`:
-
-```yaml
-- cron: '45 16 * * *'   # 10:15 PM IST (UTC+5:30)
-```
-
-Use [crontab.guru](https://crontab.guru) to convert your time to UTC.
+Update the schedule in your [cron-job.org](https://cron-job.org) dashboard to your preferred time.
 
 ### Change the tracking window
 
