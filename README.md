@@ -54,7 +54,7 @@ Today (3 problems):
 
 ---
 
-## ⚙️ How It Works
+##  How It Works
 
 ```
 cron-job.org (10:15 PM IST)
@@ -99,7 +99,7 @@ Late night solves (after 10:15 PM) won't be included — keeping your daily log 
 
 ---
 
-## 🛠️ Setup Guide
+##  Setup Guide
 
 ### Step 1 — Get Your LeetCode Cookies
 
