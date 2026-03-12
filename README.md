@@ -15,6 +15,24 @@
 
 ---
 
+## 📖 Table of Contents
+
+- [What It Does](#-what-it-does)
+- [How It Works](#-how-it-works)
+- [Screenshots](#-screenshots)
+- [Tracking Window](#-tracking-window)
+- [Setup Guide](#-setup-guide)
+- [Project Structure](#-project-structure)
+- [Customization](#-customization)
+- [Cookie Refresh](#-cookie-refresh-every-2-weeks)
+- [Troubleshooting](#-troubleshooting)
+- [FAQ](#-faq)
+- [Contributing](#-contributing)
+- [Security Notes](#-security-notes)
+- [Inspiration](#-inspiration)
+
+---
+
 ## 🚀 What It Does
 
 Every day at **10:15 PM IST**, this bot wakes up on GitHub's servers and:
@@ -33,6 +51,44 @@ Today (3 problems):
 ```
 
 > If you didn't solve anything, it posts: `No problems solved today`
+
+---
+
+## ⚙️ How It Works
+
+```
+cron-job.org (10:15 PM IST)
+        │
+        ▼
+GitHub Actions triggered via API
+        │
+        ▼
+send.py runs on GitHub's servers
+        │
+        ▼
+LeetCode GraphQL API queried
+(authenticated with session cookies)
+        │
+        ▼
+Accepted submissions from last 16 hours filtered
+        │
+        ▼
+Discord Webhook → message posted
+```
+
+**Why session cookies?**
+LeetCode blocks unauthenticated requests from cloud server IPs (like GitHub's). Using your browser session cookies authenticates the request and bypasses this block.
+
+**Why cron-job.org?**
+GitHub Actions' built-in cron scheduler can delay by up to 60 minutes on free accounts. cron-job.org triggers the workflow via GitHub's API at the exact time every night.
+
+---
+
+## 📸 Screenshots
+
+### Discord Message
+![Discord Message](assets/discord-screenshot.png)
+> Add your own screenshot to the `assets/` folder
 
 ---
 
@@ -92,21 +148,31 @@ GitHub Actions cron can delay by up to 1 hour. Use cron-job.org to trigger it ex
    - **Body:** `{"ref":"main"}`
 3. Save and test
 
+> ⚠️ To get your Workflow ID, open this URL in your browser:
+> `https://api.github.com/repos/YOUR_USERNAME/leetcode-discord-reporter/actions/workflows`
+
+### Step 6 — Done 🎉
+
+Your bot will now post every night automatically. No PC needed.
+
 ---
 
 ## 📁 Project Structure
 
 ```
 leetcode-discord-reporter/
+├── assets/
+│   └── discord-screenshot.png   # Discord bot output preview
 ├── send.py                    # Core script — fetches & posts submissions
+├── LICENSE                    # MIT License
+├── README.md                  # This file
 └── .github/
     └── workflows/
         └── daily.yml          # Triggered by cron-job.org every night at 10:15 PM IST
 ```
-
 ---
 
-## ⚙️ Customization
+## 🔧 Customization
 
 ### Change the posting time
 
@@ -122,6 +188,16 @@ if now - sub_time < timedelta(hours=16):  # tracks from 6:15 AM IST
 
 Increase or decrease the hours as needed.
 
+### Change the number of submissions fetched
+
+Edit the `limit` in `send.py`:
+
+```python
+"variables": {"username": username, "limit": 10}
+```
+
+Increase if you solve more than 10 problems a day.
+
 ---
 
 ## 🔄 Cookie Refresh (Every ~2 Weeks)
@@ -134,12 +210,63 @@ LeetCode session cookies expire. When the bot stops working:
 
 ---
 
+## 🐛 Troubleshooting
+
+| Problem | Cause | Fix |
+|---------|-------|-----|
+| `No problems solved today` but you did solve | Cookies expired | Refresh `LEETCODE_SESSION` and `csrftoken` in GitHub Secrets |
+| `KeyError: LEETCODE_SESSION` | Secret not added to yaml env | Add secret name to `env` block in `daily.yml` |
+
+---
+
+## ❓ FAQ
+
+**Q: Does my PC need to be on?**
+No. Everything runs on GitHub's servers triggered by cron-job.org.
+
+**Q: Will it work if I don't solve anything?**
+Yes. It posts `No problems solved today` so you still get a daily reminder.
+
+**Q: How long do cookies last?**
+Around 2 weeks. You'll need to refresh them when the bot stops working.
+
+**Q: Can I use this for Codeforces too?**
+Not currently. Only LeetCode is supported.
+
+**Q: Is my data safe?**
+Yes. All sensitive values are stored as GitHub Secrets and never exposed in code or logs.
+
+**Q: What if I solve more than 10 problems in a day?**
+Increase the `limit` value in `send.py` from `10` to a higher number.
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! If you have ideas to improve this:
+
+1. Fork the repo
+2. Create a new branch: `git checkout -b feature/your-feature`
+3. Make your changes
+4. Commit: `git commit -m "Add your feature"`
+5. Push: `git push origin feature/your-feature`
+6. Open a Pull Request
+
+### Ideas for contribution
+- Add Codeforces support
+- Add problem difficulty in the Discord message
+- Add weekly summary report
+- Add streak tracking
+
+---
+
 ## 🔒 Security Notes
 
 - ✅ All sensitive values are stored as **GitHub Secrets** — never in code
 - ⚠️ If your Discord webhook URL leaks, regenerate it immediately:
   `Discord → Channel Settings → Integrations → Webhooks → Regenerate URL`
 - ⚠️ Never commit cookies directly into your repo
+- ⚠️ Never share your GitHub Personal Access Token publicly
 
 ---
 
