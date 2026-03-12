@@ -88,7 +88,6 @@ GitHub Actions' built-in cron scheduler can delay by up to 60 minutes on free ac
 
 ### Discord Message
 ![Discord Message](assets/discord-screenshot.png)
-> Add your own screenshot to the `assets/` folder
 
 ---
 
