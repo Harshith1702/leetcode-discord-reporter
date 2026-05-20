@@ -2,7 +2,7 @@
 
 # 🧠 LeetCode Discord Reporter
 
-**Automatically tracks your daily LeetCode grind and posts it to Discord — every night, no PC needed.**
+**Automatically tracks your daily LeetCode grind and posts it to Discord, every night, no PC needed.**
 
 ![GitHub Actions](https://img.shields.io/badge/Automated-GitHub%20Actions-2088FF?style=for-the-badge&logo=githubactions&logoColor=white)
 ![LeetCode](https://img.shields.io/badge/LeetCode-FFA116?style=for-the-badge&logo=leetcode&logoColor=black)
