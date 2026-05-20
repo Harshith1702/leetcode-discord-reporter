@@ -39,7 +39,7 @@ Every day at **10:15 PM IST**, this bot wakes up on GitHub's servers and:
 
 - ✅ Fetches all LeetCode problems you solved that day
 - 📬 Posts them directly to your Discord channel
-- 💤 Requires **zero input from you** — PC can be completely off
+- 💤 Requires **zero input from you**, PC can be completely off
 
 ### Example Discord Message
 
@@ -95,7 +95,7 @@ GitHub Actions' built-in cron scheduler can delay by up to 60 minutes on free ac
 
 The bot captures problems solved between **6:15 AM → 10:15 PM IST** daily.
 
-Late night solves (after 10:15 PM) won't be included — keeping your daily log clean and honest.
+Late night solves (after 10:15 PM) won't be included, keeping your daily log clean and honest.
 
 ---
 
@@ -271,9 +271,9 @@ Contributions are welcome! If you have ideas to improve this:
 
 ## 💡 Inspiration
 
-In class one day, our sir mentioned a student from another campus who had built something really cool — a bot that sent daily solved problem links to the college Discord server with a single command. Sir was genuinely impressed, said he only found out about it a few days later.
+In class one day, our sir mentioned a student from another campus who had built something really cool, a bot that sent daily solved problem links to the college Discord server with a single command. Sir was genuinely impressed, said he only found out about it a few days later.
 
-That story stayed with me. I took that same idea and pushed it a step further — no button, no local PC. Mine just runs automatically every night at 10:15 PM and posts on its own, whether my PC is on or not.
+That story stayed with me. I took that same idea and pushed it a step further, no button, no local PC. Mine just runs automatically every night at 10:15 PM and posts on its own, whether my PC is on or not.
 
 Respect to that guy for the inspiration. 🙏
 
@@ -281,6 +281,6 @@ Respect to that guy for the inspiration. 🙏
 
 <div align="center">
 
-Built with 💪 to keep the grind accountable.
+Built with 💪 ig, to keep the grind accountable...
 
 </div>
