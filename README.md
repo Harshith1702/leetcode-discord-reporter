@@ -261,7 +261,7 @@ Contributions are welcome! If you have ideas to improve this:
 
 ## 🔒 Security Notes
 
-- ✅ All sensitive values are stored as **GitHub Secrets** — never in code
+- ✅ All sensitive values are stored as **GitHub Secrets**, never in code
 - ⚠️ If your Discord webhook URL leaks, regenerate it immediately:
   `Discord → Channel Settings → Integrations → Webhooks → Regenerate URL`
 - ⚠️ Never commit cookies directly into your repo
